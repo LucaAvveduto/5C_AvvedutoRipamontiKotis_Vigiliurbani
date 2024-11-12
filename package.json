@@ -1,0 +1,28 @@
+{
+  "name": "5c_avvedutoripamontikotis_vigiliurbani",
+  "version": "1.0.0",
+  "description": "Copyright 2024 Angelo Ripamonti, Luca Avveduto e Alexandros Kotis",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm install -y && npx tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucaAvveduto/5C_AvvedutoRipamontiKotis_Vigiliurbani.git"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "js"
+  ],
+  "author": "Luca, Angelo, Alexandros",
+  "license": "CC-BY-NC-ND-4.0",
+  "bugs": {
+    "url": "https://github.com/LucaAvveduto/5C_AvvedutoRipamontiKotis_Vigiliurbani/issues"
+  },
+  "homepage": "https://github.com/LucaAvveduto/5C_AvvedutoRipamontiKotis_Vigiliurbani#readme",
+  "dependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+}
