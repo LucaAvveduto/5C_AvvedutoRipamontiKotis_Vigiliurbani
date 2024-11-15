@@ -19,3 +19,8 @@ h1 {
     position: sticky !important;
     top: 0 !important;
 }
+
+#md {
+    width: 100rem !important;
+    place-items: center !important;
+}

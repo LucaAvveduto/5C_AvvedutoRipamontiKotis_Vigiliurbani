@@ -6,7 +6,13 @@ const navbarElement = document.getElementById("nav-bar");
 const modalElement = document.getElementById("md");
 
 const f = createForm(form);
-f.setLabels(["x","y"]);
+f.setLabels([
+    ["Indirizzo","text","Via Luigi Canonica 55"],
+    ["Targhe","text","AA000AA,BB111BB,CC222CC"],
+    ["Data-Ora","datetime-local","12/12/2015, 18:00"],
+    ["Numero-feriti","number","15"],
+    ["Numero-morti","number","3"]
+]);
 f.onsubmit(console.log);
 f.render();
 
