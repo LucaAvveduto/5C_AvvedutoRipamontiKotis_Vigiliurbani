@@ -1,5 +1,6 @@
 import { createForm } from "./scripts/form.js";
 import { navBarComponent } from "./scripts/navbar.js";
+import { createTable } from "./scripts/createTable.js";
 
 const form = document.getElementById("form");
 const navbarElement = document.getElementById("nav-bar");
@@ -24,3 +25,8 @@ navbar.callback(() => {
 });
 navbar.build("Monitora gli incidenti", "crea");
 navbar.render();
+
+const table = createTable(document.getElementById("tableList"));
+table.build().then(()=>{
+    table.render();
+})
