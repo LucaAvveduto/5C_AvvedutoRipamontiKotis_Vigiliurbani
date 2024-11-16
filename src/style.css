@@ -8,7 +8,7 @@ h1 {
 }
 
 .row {
-    margin-top: 25% !important;
+    margin-top: 5% !important;
 }
 
 .nav-title {
@@ -21,7 +21,12 @@ h1 {
 }
 
 #map { 
-    width: 100%; 
+    width: 80%; 
+    height: 45rem;
+    
+}
+
+#tableList {
+    width: 80%;
     height: 100%;
-    margin-right: 20% !important;
 }
