@@ -25,9 +25,9 @@ export const createTable = (parentElement) => {
                     </div>
                 
                 
-                
+                    <div id="tab">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead class="stick-on-top text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
                                     Indirizzo
@@ -75,6 +75,7 @@ export const createTable = (parentElement) => {
                         </tbody>
                     </table>
                 </div>
+            </div>
                 `;
                     parentElement.innerHTML = html; 
                     document.getElementById("search-table").onclick = () => searchCallback(document.getElementById("table-search"));
