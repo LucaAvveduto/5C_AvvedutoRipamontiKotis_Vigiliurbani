@@ -8,7 +8,7 @@ h1 {
 }
 
 .row {
-    margin: 5% !important;
+    margin-top: 25% !important;
 }
 
 .nav-title {
@@ -21,7 +21,7 @@ h1 {
 }
 
 #map { 
-    width: 600px; 
-    height: 600px;
-    margin: auto;
+    width: 100%; 
+    height: 100%;
+    margin-right: 20% !important;
 }
