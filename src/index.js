@@ -37,9 +37,7 @@ f.setLabels([
     ["Numero-morti", "number", "3"]
 ]);
 
-table.buildTable().then(() => {
-    //table.render();
-})
+table.build().then(() => table.render()).catch(console.error)
 
 map.build();
 navbar.callback(() => {
@@ -84,7 +82,13 @@ f.onsubmit((result) => {
                     if (!data[key]) {
                         data[key] = res;
                         fetchCache.setData(data).then(console.log).catch(console.error);
-                        map.addPlace((result[0] + ", Milano"), address[0]).then((i) => map.render(i)).catch((i) => map.render(i));
+                        map.addPlace((result[0] + ", Milano"), address[0]).then((i) => {
+                            map.render(i);
+                             //indirizzo da inserire
+                        }).catch((i) => {
+                            map.render(i);
+                            
+                        });
                         modalElement.classList.remove("show");
                         modalElement.classList.add("hidden");
                     } else return false; //Già esistente
@@ -93,4 +97,9 @@ f.onsubmit((result) => {
 
         }).catch(console.error);
     });
+});
+table.searchCallback((inputElement)=>{
+    const inputValue = inputElement.value;
+    table.render(inputValue);
+    inputElement.value = "";
 });
