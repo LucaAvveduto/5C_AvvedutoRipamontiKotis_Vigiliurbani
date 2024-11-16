@@ -66,7 +66,7 @@ export const createTable = (parentElement) => {
                                   +listToShow[element].feriti+
                                 `</td>
                                 <td class="px-6 py-4">`
-                                  + listToShow[element].dataora+
+                                  + new Date(listToShow[element].dataora).toUTCString() +
                                 `</td>
                             </tr>`
                         };
