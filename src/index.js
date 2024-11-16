@@ -109,6 +109,6 @@ f.onsubmit((result) => {
 });
 table.searchCallback((inputElement)=>{
     const inputValue = inputElement.value;
-    table.render(inputValue);
+    table.renderFiltered(inputValue).then(console.log).catch(console.error);
     inputElement.value = "";
 });
