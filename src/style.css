@@ -15,12 +15,13 @@ h1 {
     color: white;
 }
 
-.sticky-on-top {
-    position: sticky !important;
-    top: 0 !important;
-}
-
 #md {
     width: 100rem !important;
     place-items: center !important;
+}
+
+#map { 
+    width: 600px; 
+    height: 600px;
+    margin: auto;
 }

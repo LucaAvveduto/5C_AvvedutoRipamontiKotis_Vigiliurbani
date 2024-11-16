@@ -107,7 +107,7 @@ export const createTable = (parentElement) => {
                                    ${element.dataora}
                                 </td>
                             </tr>`);
-                            //[{address:"Via Trieste", targhe: "xxx", morti:"28", feriti: "23", dataora: "25/35/65"}]
+                            //["via-ora":{address:"Via Trieste", targhe: "xxx", morti:"28", feriti: "23", dataora: "25/35/65"}]
                     html += `
                         </tbody>
                     </table>
