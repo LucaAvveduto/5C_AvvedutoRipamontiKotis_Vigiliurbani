@@ -34,6 +34,7 @@ const modalElement = document.getElementById("md");
 const tableElement = document.getElementById("tableList")
 const map = createMap(document.getElementById("map"));
 const loading = document.getElementById("loading");
+const mapElement = document.getElementById("map");
 
 const f = createForm(formElement);
 const navbar = navBarComponent(navbarElement);
@@ -62,6 +63,8 @@ navbar.build("Monitora gli incidenti", "Inserisci");
 navbar.render();
 
 f.onsubmit((result) => {
+    hide(mapElement);
+    hide(tableElement)
     show(loading);
     console.log(result);
     if (!result) return false;
@@ -96,12 +99,16 @@ f.onsubmit((result) => {
                         fetchCache.setData(data).then(()=>{
                             map.addPlace(("Morti: " + result[4] + ", Feriti: "+result[3]+", Data e Ora: "+result[2]), [address[0].lat, address[0].lon]).then((i) => {
                                 map.render(i);
-                                table.render()
+                                table.renderFiltered("Lombardia")
                                 hide(loading)
+                                show(mapElement);
+                                show(tableElement);
                             }).catch((i) => {
                                 map.render(i);
-                                table.render()
+                                table.renderFiltered("Lombardia")
                                 hide(loading)
+                                show(mapElement);
+                                show(tableElement);
                             });
                         }).catch(console.error);
                         modalElement.classList.remove("show");

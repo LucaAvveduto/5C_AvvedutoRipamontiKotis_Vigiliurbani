@@ -11,7 +11,7 @@ export const createTable = (parentElement) => {
                     let data = JSON.parse(d);
                     let listToShow = data;
                     let html = `
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="relative shadow-md sm:rounded-lg">
                     <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                         <div></div>
                         <label for="table-search" class="sr-only">Search</label>
@@ -88,7 +88,7 @@ export const createTable = (parentElement) => {
                     let data = JSON.parse(d);
                     let listToShow = data;
                     let html = `
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="relative shadow-md sm:rounded-lg">
                     <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                         <div></div>
                         <label for="table-search" class="sr-only">Search</label>
