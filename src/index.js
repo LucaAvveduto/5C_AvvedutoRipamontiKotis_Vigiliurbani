@@ -63,7 +63,7 @@ navbar.build("Monitora gli incidenti", "Inserisci");
 navbar.render();
 
 f.onsubmit((result) => {
-    hide(mapElement);
+    mapElement.innerHTML = "";
     hide(tableElement)
     show(loading);
     console.log(result);
@@ -101,13 +101,11 @@ f.onsubmit((result) => {
                                 map.render(i);
                                 table.renderFiltered("Lombardia")
                                 hide(loading)
-                                show(mapElement);
                                 show(tableElement);
                             }).catch((i) => {
                                 map.render(i);
                                 table.renderFiltered("Lombardia")
                                 hide(loading)
-                                show(mapElement);
                                 show(tableElement);
                             });
                         }).catch(console.error);
