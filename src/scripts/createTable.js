@@ -84,6 +84,7 @@ export const createTable = (parentElement) => {
         renderFiltered: (filtered) => {
             return new Promise((resolve, reject) => {
                 return fetchComp.getPostData().then((d) => {
+                    filtered = filtered === " " ? "Lombardia" : filtered;
                     let data = JSON.parse(d);
                     let listToShow = data;
                     let html = `

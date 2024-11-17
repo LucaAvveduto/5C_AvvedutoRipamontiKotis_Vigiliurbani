@@ -48,7 +48,7 @@ f.setLabels([
     ["Numero-morti", "number", "3"]
 ]);
 
-table.build().then(() => table.render()).catch(console.error)
+table.build().then(() => table.renderFiltered("Lombardia")).catch(console.error)
 
 map.build();
 navbar.callback(() => {

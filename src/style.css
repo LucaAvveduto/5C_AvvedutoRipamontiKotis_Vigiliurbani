@@ -27,7 +27,7 @@ h1 {
 }
 
 #tab {
-    width: 100%;
+    width: 90vw !important;
     max-height: 37vh !important;
     overflow-y: scroll !important;
 }
