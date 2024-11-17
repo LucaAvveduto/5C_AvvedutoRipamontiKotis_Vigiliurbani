@@ -81,7 +81,7 @@ f.onsubmit((result) => {
                 targhe: result[1],
                 morti: result[4],
                 feriti: result[3],
-                dataora: result[2]
+                dataora: new Date(result[2]).toUTCString()
             }
 
             const fetchCache = generateFetchComponent();
@@ -93,12 +93,17 @@ f.onsubmit((result) => {
                     let data = JSON.parse(d);
                     if (!data[key]) {
                         data[key] = res;
-                        fetchCache.setData(data).then(hide(loading)).catch(console.error);
-                        map.addPlace((result[0] + ", Milano"), address[0]).then((i) => {
-                            map.render(i);
-                        }).catch((i) => {
-                            map.render(i);
-                        });
+                        fetchCache.setData(data).then(()=>{
+                            map.addPlace(("Morti: " + result[4] + ", Feriti: "+result[3]+", Data e Ora: "+result[2]), [address[0].lat, address[0].lon]).then((i) => {
+                                map.render(i);
+                                table.render()
+                                hide(loading)
+                            }).catch((i) => {
+                                map.render(i);
+                                table.render()
+                                hide(loading)
+                            });
+                        }).catch(console.error);
                         modalElement.classList.remove("show");
                         modalElement.classList.add("hidden");
                     } else return false; //Già esistente

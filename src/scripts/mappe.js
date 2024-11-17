@@ -20,9 +20,9 @@ export function createMap(parentElement) {
                             attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         }).addTo(map);
                         for(const key in data){
-                            places.push({name: data[key].address.display_name, coords: [data[key].address.lat, data[key].address.lon]});
+                            places.push({name: ("Morti: " + data[key].morti + ", Feriti: "+data[key].feriti+", Data e Ora: "+new Date(data[key].dataora).toUTCString()), coords: [data[key].address.lat, data[key].address.lon]});
                             const marker = L.marker([data[key].address.lat, data[key].address.lon]).addTo(map);
-                            marker.bindPopup("<b>" + data[key].address.display_name + "</b>");
+                            marker.bindPopup("<b>" + ("Morti: " + data[key].morti + ", Feriti: "+data[key].feriti+", Data e Ora: "+new Date(data[key].dataora).toUTCString()) + "</b>");
                         }
                         resolve("build map done");
                     }).catch(reject);
