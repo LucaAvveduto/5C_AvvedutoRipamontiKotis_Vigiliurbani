@@ -49,7 +49,7 @@ f.setLabels([
     ["Numero-morti", "number", "3"]
 ]);
 
-table.build().then(() => table.renderFiltered("Lombardia")).catch(console.error)
+table.build().then(() => table.renderFiltered("Milano")).catch(console.error)
 
 map.build();
 navbar.callback(() => {
@@ -99,12 +99,12 @@ f.onsubmit((result) => {
                         fetchCache.setData(data).then(()=>{
                             map.addPlace(("Morti: " + result[4] + ", Feriti: "+result[3]+", Data e Ora: "+result[2]), [address[0].lat, address[0].lon]).then((i) => {
                                 map.render(i);
-                                table.renderFiltered("Lombardia")
+                                table.renderFiltered("Milano")
                                 hide(loading)
                                 show(tableElement);
                             }).catch((i) => {
                                 map.render(i);
-                                table.renderFiltered("Lombardia")
+                                table.renderFiltered("Milano")
                                 hide(loading)
                                 show(tableElement);
                             });
