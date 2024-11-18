@@ -32,7 +32,7 @@ export function createMap(parentElement) {
         render: (index) => {
             if(!index) index = 0;
             if(map) map.remove();
-            map = L.map(parentElement).setView(places[index].coords, zoom);
+            map = L.map(parentElement).setView([45.4639102, 9.1906426], zoom);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: maxZoom,
                 attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
