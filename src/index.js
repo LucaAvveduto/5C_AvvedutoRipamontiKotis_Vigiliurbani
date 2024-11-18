@@ -89,7 +89,7 @@ f.onsubmit((result) => {
     const fetchLocation = generateFetchComponent();
     fetchLocation.build("../../config.json", "location").then(() => {
         fetchLocation.getData((result[0] + ", Milano")).then((address) => {
-            if (result[1].split(",").lenght > 2) {
+            if ((result[1].split(",")).length > 2) {
                 f.throwError("Targa/e non valida/e");; //Targhe
                 return false;
             }
