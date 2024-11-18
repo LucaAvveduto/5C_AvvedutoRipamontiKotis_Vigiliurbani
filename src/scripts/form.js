@@ -1,9 +1,12 @@
 export const createForm = (parentElement) =>{
     let data = [];
     let callback = null;
+    let closeRender = null;
     return {  
       setLabels: (labels) => { data = labels; },  
       onsubmit: (callbackInput) => { callback = callbackInput},
+      closeRender: (callback) => closeRender = callback,
+      throwError: (error) => document.getElementById("error-div").innerText = error,
       render: () => { 
         parentElement.innerHTML = 
           data.map((name) => {
@@ -14,8 +17,9 @@ export const createForm = (parentElement) =>{
                         </div>`
                 ;
             }).join('\n')
+            + "<div id='error-div'></div>"
             + "<button type='button' class='text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2' id='submit'>INVIA</button>"
-            + "<button type='button' class='text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 cl' id='cancel'>ANNULLA</button>";  
+            + "<button type='button' class='text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 cl' id='cancel'>ANNULLA</button>";
             ;  
         document.querySelector("#submit").onclick = () => {
           const result = data.map((name) => {
@@ -33,6 +37,7 @@ export const createForm = (parentElement) =>{
             const modal = document.getElementById("md");
             modal.classList.remove("show");
             modal.classList.add("hidden");
+            closeRender();
         });         
       },
     };

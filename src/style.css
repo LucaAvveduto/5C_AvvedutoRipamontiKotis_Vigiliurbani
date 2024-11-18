@@ -40,3 +40,11 @@ h1 {
     position: sticky;
     top: 0 !important;
 }
+
+#error-div {
+    color: red !important;
+    font-weight: bold !important;
+    font-size: large !important;
+    text-align: center;
+    margin: auto;
+}

@@ -62,22 +62,49 @@ navbar.callback(() => {
 navbar.build("Monitora gli incidenti", "Inserisci");
 navbar.render();
 
+f.closeRender(() => {
+    map.render();
+    table.renderFiltered("Milano")
+    hide(loading);
+    show(tableElement);
+});
 f.onsubmit((result) => {
     mapElement.innerHTML = "";
     hide(tableElement)
     show(loading);
     console.log(result);
-    if (!result) return false;
-    if (result.lenght < 5) return false;
-    if (result[0] == undefined || result[0].length <= 0) return false; //Indirizzo
+    if (!result) {
+        f.throwError("Errore");
+        return false;
+    }
+    if (result.lenght < 5) {
+        f.throwError("Campi mancanti");
+        return false;
+    }
+    if (result[0] == undefined || result[0].length <= 0) {
+        f.throwError("Indirizzo non valido"); //Indirizzo
+        return false;
+    }
 
     const fetchLocation = generateFetchComponent();
     fetchLocation.build("../../config.json", "location").then(() => {
         fetchLocation.getData((result[0] + ", Milano")).then((address) => {
-            if (result[1].split(",").lenght > 3) return false; //Targhe
-            if (result[2] == "" || result[2] > new Date(Date.now()).toISOString()) return false; //DataOra
-            if (result[3] < 0) return false; //Feriti
-            if (result[4] < 0) return false; //Morti
+            if (result[1].split(",").lenght > 2) {
+                f.throwError("Targa/e non valida/e");; //Targhe
+                return false;
+            }
+            if (result[2] == "" || result[2] > new Date(Date.now()).toISOString()) {
+                f.throwError("Data/ora non validi"); //Indirizzo
+                return false;
+            }
+            if (result[3] < 0) {
+                f.throwError("Feriti non validi"); //Feriti
+                return false;
+            }
+            if (result[4] < 0) {
+                f.throwError("Numero dei morti non validi"); //Morti
+                return false;
+            }
 
             const res = {
                 address: address[0],
@@ -111,7 +138,10 @@ f.onsubmit((result) => {
                         }).catch(console.error);
                         modalElement.classList.remove("show");
                         modalElement.classList.add("hidden");
-                    } else return false; //Già esistente
+                    } else {
+                        f.throwError("Incidente già esistente"); //Già esistente
+                        return false;
+                    }
                 }).catch(console.error);
             }).catch(console.error);
         }).catch(console.error);
