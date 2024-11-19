@@ -71,6 +71,53 @@ export function generateFetchComponent() {
                     .then(data => resolve(data))
                     .catch(err => reject(err));
             })
+        },
+
+        login: (username, password) => {
+            return new Promise((resolve, reject) => {
+                if(config[configKey].login == undefined || config[configKey].token == undefined){
+                    return reject("config errato") ;
+                }
+                fetch(config.login, { 
+                  method: "POST",
+                  headers: {
+                     "content-type": "application/json",
+                     "key": config.token
+                  },
+                  body: JSON.stringify({
+                     username: username,
+                     password: password
+                  })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if(data.result === true) resolve(data.result);
+                    else reject(data.result);
+                })
+                .catch(reject);
+              })
+            
+        },
+        register: (username, password) => {
+            return new Promise((resolve, reject) => {
+                if(config[configKey].register == undefined || config[configKey].token == undefined){
+                    return reject("config errato") ;
+                }
+                fetch(config.register, { 
+                  method: "POST",
+                  headers: {
+                     "content-type": "application/json",
+                     "key": config.token
+                  },
+                  body: JSON.stringify({
+                     username: username,
+                     password: password
+                  })
+                })
+                .then(r => r.json())
+                .then(data => resolve(data))
+                .catch(reject);
+              })
         }
     };
 }
