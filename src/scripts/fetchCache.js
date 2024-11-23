@@ -78,11 +78,11 @@ export function generateFetchComponent() {
                 if(config[configKey].login == undefined || config[configKey].token == undefined){
                     return reject("config errato") ;
                 }
-                fetch(config.login, { 
+                fetch(config[configKey].login, { 
                   method: "POST",
                   headers: {
                      "content-type": "application/json",
-                     "key": config.token
+                     "key": config[configKey].token
                   },
                   body: JSON.stringify({
                      username: username,
@@ -103,11 +103,11 @@ export function generateFetchComponent() {
                 if(config[configKey].register == undefined || config[configKey].token == undefined){
                     return reject("config errato") ;
                 }
-                fetch(config.register, { 
+                fetch(config[configKey].register, { 
                   method: "POST",
                   headers: {
                      "content-type": "application/json",
-                     "key": config.token
+                     "key": config[configKey].token
                   },
                   body: JSON.stringify({
                      username: username,
