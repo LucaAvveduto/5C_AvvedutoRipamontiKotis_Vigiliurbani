@@ -1,6 +1,7 @@
 export function navBarComponent(parentElement) {
     let callback;
     let loginCallback;
+    let registerCallback;
     let title;
     let buttons;
 
@@ -21,8 +22,9 @@ export function navBarComponent(parentElement) {
             newNavBar += `</div>
                                 </div>
                                 <div class="flex items-center">
-                                    <button class="rounded-full bg-gray-700 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 nav-btn" id="open">` + buttons +`</button>
-                                    <button class="rounded-full bg-gray-700 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 nav-btn" id="login">Login</button>
+                                    <button class="hidden rounded-full bg-gray-700 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 nav-btn" id="open">` + buttons +`</button>
+                                    <button class="rounded-full bg-gray-700 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 nav-btn credential" id="login">Login</button>
+                                    <button class="rounded-full bg-gray-700 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 nav-btn credential" id="register">Register</button>
                                 </div>
                                 </div>
                             </div>`;
@@ -30,12 +32,16 @@ export function navBarComponent(parentElement) {
 
             document.querySelector("#open").onclick = () => callback();
             document.querySelector("#login").onclick = () => loginCallback();
+            document.querySelector("#register").onclick = () => registerCallback();
         },
         callback(value){
             callback = value;
         },
         loginButton(value) {
             loginCallback = value;
+        },
+        registerCallback(value) {
+            registerCallback = value;
         }
     }
 }

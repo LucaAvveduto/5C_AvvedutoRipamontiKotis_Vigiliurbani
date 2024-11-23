@@ -17,7 +17,6 @@ export function generateFetchComponent() {
         },
 
         setData: (data) => {
-            
             return new Promise((resolve, reject) => {
                 if(config[configKey].set == undefined || config[configKey].token == undefined || config[configKey].key== undefined){
                     return reject("config errato") ;

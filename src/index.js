@@ -8,12 +8,12 @@ String.prototype.deleteSpace = function () {
     return this.replaceAll(/\s/g, "");
 }
 
-function hide (element) {
+function hide(element) {
     element.classList.remove("show");
     element.classList.add("hidden");
 }
 
-function show (element) {
+function show(element) {
     element.classList.remove("hidden");
     element.classList.add("show");
 }
@@ -53,37 +53,37 @@ navbar.callback(() => {
         show(loading);
         console.log(result);
         if (!result) {
-            f.throwError("Errore");
+            f.send("Errore");
             return false;
         }
         if (result.lenght < 5) {
-            f.throwError("Campi mancanti");
+            f.send("Campi mancanti");
             return false;
         }
         if (result[0] == undefined || result[0].length <= 0) {
-            f.throwError("Indirizzo non valido");
+            f.send("Indirizzo non valido");
             return false;
         }
         const fetchLocation = generateFetchComponent();
         fetchLocation.build("../../config.json", "location").then(() => {
             fetchLocation.getData((result[0] + ", Milano")).then((address) => {
                 if ((result[1].split(",")).length > 2) {
-                    f.throwError("Targa/e non valida/e");; //Targhe
+                    f.send("Targa/e non valida/e");; //Targhe
                     return false;
                 }
                 if (result[2] == "" || result[2] > new Date(Date.now()).toISOString()) {
-                    f.throwError("Data/ora non validi"); //Indirizzo
+                    f.send("Data/ora non validi"); //Indirizzo
                     return false;
                 }
                 if (result[3] < 0) {
-                    f.throwError("Feriti non validi"); //Feriti
+                    f.send("Feriti non validi"); //Feriti
                     return false;
                 }
                 if (result[4] < 0) {
-                    f.throwError("Numero dei morti non validi"); //Morti
+                    f.send("Numero dei morti non validi"); //Morti
                     return false;
                 }
-    
+
                 const res = {
                     address: address[0],
                     targhe: result[1],
@@ -91,18 +91,18 @@ navbar.callback(() => {
                     feriti: result[3],
                     dataora: new Date(result[2]).toUTCString()
                 }
-    
+
                 const fetchCache = generateFetchComponent();
                 fetchCache.build("../../config.json", "cache").then(() => {
-    
+
                     const key = result[0].deleteSpace() + ",Milano_" + result[2];
                     console.log(key);
                     fetchCache.getPostData().then(d => {
                         let data = JSON.parse(d);
                         if (!data[key]) {
                             data[key] = res;
-                            fetchCache.setData(data).then(()=>{
-                                map.addPlace(("Morti: " + result[4] + ", Feriti: "+result[3]+", Data e Ora: "+result[2]), [address[0].lat, address[0].lon]).then((i) => {
+                            fetchCache.setData(data).then(() => {
+                                map.addPlace(("Morti: " + result[4] + ", Feriti: " + result[3] + ", Data e Ora: " + result[2]), [address[0].lat, address[0].lon]).then((i) => {
                                     map.render(i);
                                     table.renderFiltered("Milano")
                                     hide(loading)
@@ -117,7 +117,7 @@ navbar.callback(() => {
                             modalElement.classList.remove("show");
                             modalElement.classList.add("hidden");
                         } else {
-                            f.throwError("Incidente già esistente"); //Già esistente
+                            f.send("Incidente già esistente"); //Già esistente
                             return false;
                         }
                     }).catch(console.error);
@@ -129,7 +129,7 @@ navbar.callback(() => {
 });
 
 navbar.loginButton(() => {
-    document.getElementById("form-title").innerText = "Login"
+    document.getElementById("form-title").innerText = "Login";
     modalElement.classList.remove("hidden");
     modalElement.classList.add("show");
     f.setLabels([
@@ -138,6 +138,45 @@ navbar.loginButton(() => {
     ]);
     f.onsubmit((result) => {
         console.log(result);
+        const reg = generateFetchComponent();
+        reg.build("../../config.json", "credential").then(() => {
+            reg.login(result[0], result[1]).then(() => {
+                const buttons = document.querySelectorAll(".credential");
+                buttons.forEach(b => hide(b));
+                hide(modalElement);
+                show(document.getElementById("open"));
+            }).catch(() => f.send("Login failed"));
+        }).catch(console.error)
+    });
+    f.render();
+});
+
+navbar.registerCallback(() => {
+    document.getElementById("form-title").innerText = "Register";
+    modalElement.classList.remove("hidden");
+    modalElement.classList.add("show");
+    f.setLabels([
+        ["Username", "text", "Inserire lo username"],
+        ["Password", "password", "****"],
+        ["Conferma", "password", "****"]
+    ]);
+    f.onsubmit((result) => {
+        if (result[1] !== result[2]) {
+            f.send("Le password non coincidono");
+            return false;
+        }
+        const reg = generateFetchComponent();
+        reg.build("../../config.json", "credential").then(() => {
+            reg.register(result[0], result[1]).then(() => {
+                f.send("Registrato con successo", true);
+                reg.login(result[0], result[1]).then(() => {
+                    const buttons = document.querySelectorAll(".credential");
+                    buttons.forEach(b => hide(b));
+                    hide(modalElement);
+                    show(document.getElementById("open"));
+                }).catch(console.error);
+            }).catch(err => f.send(err));
+        });
     });
     f.render();
 });
@@ -150,7 +189,7 @@ f.closeRender(() => {
     show(tableElement);
 });
 
-table.searchCallback((inputElement)=>{
+table.searchCallback((inputElement) => {
     const inputValue = inputElement.value;
     table.renderFiltered(inputValue).then(console.log).catch(console.error);
     inputElement.value = "";

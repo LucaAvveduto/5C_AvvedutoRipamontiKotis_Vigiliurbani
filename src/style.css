@@ -51,7 +51,7 @@ td, th {
     top: 0 !important;
 }
 
-#error-div {
+.error-div {
     color: red !important;
     font-weight: bold !important;
     font-size: large !important;
@@ -59,6 +59,14 @@ td, th {
     margin: auto;
 }
 
-.nav-btn {
-    margin-left: 25%;
+.feedback-div {
+    color: green !important;
+    font-weight: bold !important;
+    font-size: large !important;
+    text-align: center;
+    margin: auto;
+}
+
+.nav-btn:not(#register){
+    margin-right: 25%;
 }
