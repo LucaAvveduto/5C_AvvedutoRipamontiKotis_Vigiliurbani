@@ -34,9 +34,9 @@ export const createForm = (parentElement) =>{
         }
         document.querySelectorAll(".cl").forEach((e) =>
           e.onclick = () => {
-            const modal = document.getElementById("md");
+            /*const modal = document.getElementById("md");
             modal.classList.remove("show");
-            modal.classList.add("hidden");
+            modal.classList.add("hidden");*/
             closeRender();
         });         
       },

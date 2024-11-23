@@ -1,5 +1,6 @@
 export function navBarComponent(parentElement) {
     let callback;
+    let loginCallback;
     let title;
     let buttons;
 
@@ -20,16 +21,21 @@ export function navBarComponent(parentElement) {
             newNavBar += `</div>
                                 </div>
                                 <div class="flex items-center">
-                                    <button class="rounded-full bg-gray-700 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="open">` + buttons +`</button>
+                                    <button class="rounded-full bg-gray-700 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 nav-btn" id="open">` + buttons +`</button>
+                                    <button class="rounded-full bg-gray-700 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 nav-btn" id="login">Login</button>
                                 </div>
                                 </div>
                             </div>`;
             parentElement.innerHTML = newNavBar;
 
             document.querySelector("#open").onclick = () => callback();
+            document.querySelector("#login").onclick = () => loginCallback();
         },
         callback(value){
             callback = value;
+        },
+        loginButton(value) {
+            loginCallback = value;
         }
     }
 }

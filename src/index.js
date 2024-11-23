@@ -40,34 +40,52 @@ const f = createForm(formElement);
 const navbar = navBarComponent(navbarElement);
 const table = createTable(tableElement);
 
-
-f.setLabels([
-    ["Indirizzo", "text", "Via Luigi Canonica 55"],
-    ["Targhe", "text", "AA000AA,BB111BB,CC222CC"],
-    ["Data-Ora", "datetime-local", "12/12/2015, 18:00"],
-    ["Numero-feriti", "number", "15"],
-    ["Numero-morti", "number", "3"]
-]);
-
-table.build().then(() => table.renderFiltered("Milano")).catch(console.error)
-
+table.build().then(() => table.renderFiltered("Milano")).catch(console.error);
 map.build();
-navbar.callback(() => {
-    console.log("premuto");
-    modalElement.classList.remove("hidden");
-    modalElement.classList.add("show");
-    f.render();
-});
 
 navbar.build("Monitora gli incidenti", "Inserisci");
 navbar.render();
 
+navbar.callback(() => {
+    modalElement.classList.remove("hidden");
+    modalElement.classList.add("show");
+    f.setLabels([
+        ["Indirizzo", "text", "Via Luigi Canonica 55"],
+        ["Targhe", "text", "AA000AA,BB111BB,CC222CC"],
+        ["Data-Ora", "datetime-local", "12/12/2015, 18:00"],
+        ["Numero-feriti", "number", "15"],
+        ["Numero-morti", "number", "3"]
+    ]);
+    f.render();
+});
+
+navbar.loginButton(() => {
+    modalElement.classList.remove("hidden");
+    modalElement.classList.add("show");
+    f.setLabels([
+        ["Username", "text", "Inserire lo username"],
+        ["Password", "password", "****"],
+    ]);
+    f.render();
+});
+
 f.closeRender(() => {
+    hide(modalElement);
     map.render();
     table.renderFiltered("Milano")
     hide(loading);
     show(tableElement);
 });
+
+loginForm.closeRender(() => {
+    hide(loginModalElement);
+    map.render();
+    table.renderFiltered("Milano");
+    hide(loading);
+    show(tableElement);
+});
+
+
 f.onsubmit((result) => {
     mapElement.innerHTML = "";
     hide(tableElement)
