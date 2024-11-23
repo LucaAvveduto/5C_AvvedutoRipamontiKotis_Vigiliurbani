@@ -1,18 +1,8 @@
-import {
-    createForm
-} from "./scripts/form.js";
-import {
-    navBarComponent
-} from "./scripts/navbar.js";
-import {
-    createTable
-} from "./scripts/createTable.js";
-import {
-    createMap
-} from "./scripts/mappe.js";
-import {
-    generateFetchComponent
-} from "./scripts/fetchCache.js";
+import { createForm } from "./scripts/form.js";
+import { navBarComponent } from "./scripts/navbar.js";
+import { createTable } from "./scripts/createTable.js";
+import { createMap } from "./scripts/mappe.js";
+import { generateFetchComponent } from "./scripts/fetchCache.js";
 
 String.prototype.deleteSpace = function () {
     return this.replaceAll(/\s/g, "");
@@ -47,6 +37,7 @@ navbar.build("Monitora gli incidenti", "Inserisci");
 navbar.render();
 
 navbar.callback(() => {
+    document.getElementById("form-title").innerText = "Inserisci un nuovo incidente";
     modalElement.classList.remove("hidden");
     modalElement.classList.add("show");
     f.setLabels([
@@ -56,16 +47,98 @@ navbar.callback(() => {
         ["Numero-feriti", "number", "15"],
         ["Numero-morti", "number", "3"]
     ]);
+    f.onsubmit((result) => {
+        mapElement.innerHTML = "";
+        hide(tableElement)
+        show(loading);
+        console.log(result);
+        if (!result) {
+            f.throwError("Errore");
+            return false;
+        }
+        if (result.lenght < 5) {
+            f.throwError("Campi mancanti");
+            return false;
+        }
+        if (result[0] == undefined || result[0].length <= 0) {
+            f.throwError("Indirizzo non valido");
+            return false;
+        }
+        const fetchLocation = generateFetchComponent();
+        fetchLocation.build("../../config.json", "location").then(() => {
+            fetchLocation.getData((result[0] + ", Milano")).then((address) => {
+                if ((result[1].split(",")).length > 2) {
+                    f.throwError("Targa/e non valida/e");; //Targhe
+                    return false;
+                }
+                if (result[2] == "" || result[2] > new Date(Date.now()).toISOString()) {
+                    f.throwError("Data/ora non validi"); //Indirizzo
+                    return false;
+                }
+                if (result[3] < 0) {
+                    f.throwError("Feriti non validi"); //Feriti
+                    return false;
+                }
+                if (result[4] < 0) {
+                    f.throwError("Numero dei morti non validi"); //Morti
+                    return false;
+                }
+    
+                const res = {
+                    address: address[0],
+                    targhe: result[1],
+                    morti: result[4],
+                    feriti: result[3],
+                    dataora: new Date(result[2]).toUTCString()
+                }
+    
+                const fetchCache = generateFetchComponent();
+                fetchCache.build("../../config.json", "cache").then(() => {
+    
+                    const key = result[0].deleteSpace() + ",Milano_" + result[2];
+                    console.log(key);
+                    fetchCache.getPostData().then(d => {
+                        let data = JSON.parse(d);
+                        if (!data[key]) {
+                            data[key] = res;
+                            fetchCache.setData(data).then(()=>{
+                                map.addPlace(("Morti: " + result[4] + ", Feriti: "+result[3]+", Data e Ora: "+result[2]), [address[0].lat, address[0].lon]).then((i) => {
+                                    map.render(i);
+                                    table.renderFiltered("Milano")
+                                    hide(loading)
+                                    show(tableElement);
+                                }).catch((i) => {
+                                    map.render(i);
+                                    table.renderFiltered("Milano")
+                                    hide(loading)
+                                    show(tableElement);
+                                });
+                            }).catch(console.error);
+                            modalElement.classList.remove("show");
+                            modalElement.classList.add("hidden");
+                        } else {
+                            f.throwError("Incidente già esistente"); //Già esistente
+                            return false;
+                        }
+                    }).catch(console.error);
+                }).catch(console.error);
+            }).catch(console.error);
+        }).catch(console.error);
+    });
     f.render();
 });
 
 navbar.loginButton(() => {
+    document.getElementById("form-title").innerText = "Login"
     modalElement.classList.remove("hidden");
     modalElement.classList.add("show");
     f.setLabels([
         ["Username", "text", "Inserire lo username"],
         ["Password", "password", "****"],
     ]);
+    f.onsubmit((result) => {
+        console.log(result);
+    });
     f.render();
 });
 
@@ -77,94 +150,6 @@ f.closeRender(() => {
     show(tableElement);
 });
 
-loginForm.closeRender(() => {
-    hide(loginModalElement);
-    map.render();
-    table.renderFiltered("Milano");
-    hide(loading);
-    show(tableElement);
-});
-
-
-f.onsubmit((result) => {
-    mapElement.innerHTML = "";
-    hide(tableElement)
-    show(loading);
-    console.log(result);
-    if (!result) {
-        f.throwError("Errore");
-        return false;
-    }
-    if (result.lenght < 5) {
-        f.throwError("Campi mancanti");
-        return false;
-    }
-    if (result[0] == undefined || result[0].length <= 0) {
-        f.throwError("Indirizzo non valido"); //Indirizzo
-        return false;
-    }
-
-    const fetchLocation = generateFetchComponent();
-    fetchLocation.build("../../config.json", "location").then(() => {
-        fetchLocation.getData((result[0] + ", Milano")).then((address) => {
-            if ((result[1].split(",")).length > 2) {
-                f.throwError("Targa/e non valida/e");; //Targhe
-                return false;
-            }
-            if (result[2] == "" || result[2] > new Date(Date.now()).toISOString()) {
-                f.throwError("Data/ora non validi"); //Indirizzo
-                return false;
-            }
-            if (result[3] < 0) {
-                f.throwError("Feriti non validi"); //Feriti
-                return false;
-            }
-            if (result[4] < 0) {
-                f.throwError("Numero dei morti non validi"); //Morti
-                return false;
-            }
-
-            const res = {
-                address: address[0],
-                targhe: result[1],
-                morti: result[4],
-                feriti: result[3],
-                dataora: new Date(result[2]).toUTCString()
-            }
-
-            const fetchCache = generateFetchComponent();
-            fetchCache.build("../../config.json", "cache").then(() => {
-
-                const key = result[0].deleteSpace() + ",Milano_" + result[2];
-                console.log(key);
-                fetchCache.getPostData().then(d => {
-                    let data = JSON.parse(d);
-                    if (!data[key]) {
-                        data[key] = res;
-                        fetchCache.setData(data).then(()=>{
-                            map.addPlace(("Morti: " + result[4] + ", Feriti: "+result[3]+", Data e Ora: "+result[2]), [address[0].lat, address[0].lon]).then((i) => {
-                                map.render(i);
-                                table.renderFiltered("Milano")
-                                hide(loading)
-                                show(tableElement);
-                            }).catch((i) => {
-                                map.render(i);
-                                table.renderFiltered("Milano")
-                                hide(loading)
-                                show(tableElement);
-                            });
-                        }).catch(console.error);
-                        modalElement.classList.remove("show");
-                        modalElement.classList.add("hidden");
-                    } else {
-                        f.throwError("Incidente già esistente"); //Già esistente
-                        return false;
-                    }
-                }).catch(console.error);
-            }).catch(console.error);
-        }).catch(console.error);
-    }).catch(console.error);
-});
 table.searchCallback((inputElement)=>{
     const inputValue = inputElement.value;
     table.renderFiltered(inputValue).then(console.log).catch(console.error);

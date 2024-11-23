@@ -28,15 +28,12 @@ export const createForm = (parentElement) =>{
           data.forEach((element) => {
             const node = document.querySelector("#" + element[0])
             const type = element[1];
-            node.value = type !== "text" ? "gg/mm/aaaa, --:--" : "";
+            node.value = type === "datetime-local" ? "gg/mm/aaaa, --:--" : "";
           });
           callback(result);
         }
         document.querySelectorAll(".cl").forEach((e) =>
           e.onclick = () => {
-            /*const modal = document.getElementById("md");
-            modal.classList.remove("show");
-            modal.classList.add("hidden");*/
             closeRender();
         });         
       },
