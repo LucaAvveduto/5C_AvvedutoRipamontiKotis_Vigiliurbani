@@ -9,11 +9,12 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
             <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
         <title>Monitora incidenti - Milano</title>
         <link rel="stylesheet" href="./style.css">
     </head>
     <body>
-        <nav id="nav-bar" class="bg-gray-800 stick-on-top"></nav>
+        <nav id="nav-bar" class="bg-gray-800 stick-on-top"></nav> 
         <div class="grid grid-cols-2 gap-4 justify-items-center items-center min-h-screen" id="grid-system">
             <div id="loading" class="hidden">
                 <div class="flex-col gap-4 w-full flex items-center justify-center">
@@ -33,9 +34,7 @@
                         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                             <div
                                 class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    Inserisci un nuovo incidente
-                                </h3>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white" id="form-title"></h3>
                                 <button type="button"
                                     class="cl end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                     data-modal-hide="authentication-modal">
