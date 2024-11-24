@@ -1,6 +1,7 @@
 import {
     parseConfiguration
 } from "./jsonParser.js"
+//import Cookies from "../../node_modules/js-cookie/dist/js.cookie.min.js";
 
 export function generateFetchComponent() {
     let config;
@@ -90,7 +91,10 @@ export function generateFetchComponent() {
                 })
                 .then(r => r.json())
                 .then(data => {
-                    if(data.result === true) resolve(data.result);
+                    if(data.result === true) {
+                        Cookies.set('isLogged', 'true', { expires: 365 })
+                        resolve(data.result)
+                    }
                     else reject(data.result);
                 })
                 .catch(reject);

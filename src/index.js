@@ -3,6 +3,8 @@ import { navBarComponent } from "./scripts/navbar.js";
 import { createTable } from "./scripts/createTable.js";
 import { createMap } from "./scripts/mappe.js";
 import { generateFetchComponent } from "./scripts/fetchCache.js";
+//import Cookies from "../node_modules/js-cookie/dist/js.cookie.min.js";
+let isLogged = Cookies.get('isLogged');
 
 String.prototype.deleteSpace = function () {
     return this.replaceAll(/\s/g, "");
@@ -34,7 +36,7 @@ table.build().then(() => table.renderFiltered("Milano")).catch(console.error);
 map.build();
 
 navbar.build("Monitora gli incidenti", "Inserisci");
-navbar.render();
+navbar.render(isLogged);
 
 navbar.callback(() => {
     document.getElementById("form-title").innerText = "Inserisci un nuovo incidente";
@@ -141,6 +143,7 @@ navbar.loginButton(() => {
         const reg = generateFetchComponent();
         reg.build("../../config.json", "credential").then(() => {
             reg.login(result[0], result[1]).then(() => {
+                isLogged = Cookies.get('isLogged');
                 const buttons = document.querySelectorAll(".credential");
                 buttons.forEach(b => hide(b));
                 hide(modalElement);
@@ -170,6 +173,7 @@ navbar.registerCallback(() => {
             reg.register(result[0], result[1]).then(() => {
                 f.send("Registrato con successo", true);
                 reg.login(result[0], result[1]).then(() => {
+                    isLogged = Cookies.get('isLogged');
                     const buttons = document.querySelectorAll(".credential");
                     buttons.forEach(b => hide(b));
                     hide(modalElement);
